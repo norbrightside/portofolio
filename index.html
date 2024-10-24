@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clock and Activity Schedule</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f4f4f4;
+        }
+
+        .clock-container {
+            position: relative;
+            width: 200px;
+            height: 200px;
+            border: 5px solid black;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .hand {
+            width: 2px;
+            height: 90px;
+            background-color: black;
+            position: absolute;
+            top: 10px;
+            transform-origin: bottom;
+            transition: transform 0.5s ease;
+        }
+
+        /* Pie chart for activity */
+        .pie-chart {
+            width: 400px;
+            height: 400px;
+            position: relative;
+            margin-left: 50px;
+        }
+
+        .pie-chart .segment {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            clip: rect(0, 200px, 200px, 100px);
+            border-radius: 50%;
+        }
+
+        .pie-chart .segment-1 {
+            background: #FFD700;
+            transform: rotate(0deg);
+            clip: rect(0px, 100px, 200px, 0px);
+        }
+
+        .pie-chart .segment-2 {
+            background: #FF6347;
+            transform: rotate(90deg);
+        }
+
+        .pie-chart .segment-3 {
+            background: #4682B4;
+            transform: rotate(180deg);
+        }
+
+        .pie-chart .segment-4 {
+            background: #32CD32;
+            transform: rotate(210deg);
+        }
+
+        .pie-chart .segment-5 {
+            background: #8A2BE2;
+            transform: rotate(300deg);
+        }
+
+        .center-label {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            font-weight: bold;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Clock -->
+    <div class="clock-container">
+        <div class="hand" id="hand"></div>
+    </div>
+
+    <!-- Pie Chart for Daily Activities -->
+    <div class="pie-chart">
+        <div class="segment segment-1"></div>
+        <div class="segment segment-2"></div>
+        <div class="segment segment-3"></div>
+        <div class="segment segment-4"></div>
+        <div class="segment segment-5"></div>
+        <div class="center-label">Daily<br>Schedule</div>
+    </div>
+
+    <script>
+        // JavaScript to update clock's hand in real time
+        function updateClock() {
+            const hand = document.getElementById('hand');
+            const now = new Date();
+
+            // Get the current hour, minute, and second
+            const hours = now.getHours();
+            const minutes = now.getMinutes();
+
+            // Calculate the rotation degree
+            const totalDegrees = ((hours % 24) * 60 + minutes) * 0.25; 
+
+            // Rotate the hand based on the calculated degrees
+            hand.style.transform = `rotate(${totalDegrees}deg)`;
+        }
+
+        // Update the clock every second
+        setInterval(updateClock, 1000);
+        updateClock();
+    </script>
+
+</body>
+</html>
