@@ -3,14 +3,13 @@ function updateClock() {
     const hand = document.getElementById('hand');
     const now = new Date();
 
-    // Get the current hour, minute, and second
+    // Get the current hour and minute
     const hours = now.getHours();
     const minutes = now.getMinutes();
-    const seconds = now.getSeconds();
 
-    // Calculate the rotation degree: (hours * 60 + minutes) / 4 = total degrees
-    // 24 hours in 360 degrees, hence 15 degrees per hour
-    const totalDegrees = ((hours % 24) * 60 + minutes) * 0.25; 
+    // Calculate the rotation degree: (hours * 60 + minutes) / 2 = total degrees
+    // 12 hours in 360 degrees, hence 30 degrees per hour
+    const totalDegrees = ((hours % 12) * 60 + minutes) * 0.5; 
 
     // Rotate the hand based on the calculated degrees
     hand.style.transform = `rotate(${totalDegrees}deg)`;
