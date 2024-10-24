@@ -8,27 +8,30 @@
         body {
             font-family: Arial, sans-serif;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
             height: 100vh;
             margin: 0;
             background-color: #f4f4f4;
+            padding: 20px;
         }
 
         .clock-container {
             position: relative;
-            width: 200px;
-            height: 200px;
+            width: 150px; /* Adjusted for mobile */
+            height: 150px; /* Adjusted for mobile */
             border: 5px solid black;
             border-radius: 50%;
             display: flex;
             justify-content: center;
             align-items: center;
+            margin-bottom: 20px; /* Space between clock and pie chart */
         }
 
         .hand {
             width: 2px;
-            height: 90px;
+            height: 70px; /* Adjusted for mobile */
             background-color: black;
             position: absolute;
             top: 10px;
@@ -36,12 +39,11 @@
             transition: transform 0.5s ease;
         }
 
-        /* Pie chart for activity */
         .pie-chart {
-            width: 400px;
-            height: 400px;
+            width: 250px; /* Adjusted for mobile */
+            height: 250px; /* Adjusted for mobile */
             position: relative;
-            margin-left: 50px;
+            margin: 0 auto;
         }
 
         .pie-chart .segment {
@@ -50,14 +52,14 @@
             left: 0;
             width: 100%;
             height: 100%;
-            clip: rect(0, 200px, 200px, 100px);
+            clip: rect(0, 125px, 125px, 62.5px); /* Adjusted for mobile */
             border-radius: 50%;
         }
 
         .pie-chart .segment-1 {
             background: #FFD700;
             transform: rotate(0deg);
-            clip: rect(0px, 100px, 200px, 0px);
+            clip: rect(0px, 62.5px, 125px, 0px);
         }
 
         .pie-chart .segment-2 {
@@ -87,7 +89,27 @@
             transform: translate(-50%, -50%);
             text-align: center;
             font-weight: bold;
-            font-size: 16px;
+            font-size: 14px; /* Adjusted for mobile */
+        }
+
+        @media (max-width: 600px) {
+            .clock-container {
+                width: 120px; /* Smaller clock for mobile */
+                height: 120px; /* Smaller clock for mobile */
+            }
+
+            .hand {
+                height: 60px; /* Smaller hand for mobile */
+            }
+
+            .pie-chart {
+                width: 200px; /* Smaller pie chart for mobile */
+                height: 200px; /* Smaller pie chart for mobile */
+            }
+
+            .center-label {
+                font-size: 12px; /* Smaller text for mobile */
+            }
         }
     </style>
 </head>
@@ -119,7 +141,7 @@
             const minutes = now.getMinutes();
 
             // Calculate the rotation degree
-            const totalDegrees = ((hours % 24) * 60 + minutes) * 0.25; 
+            const totalDegrees = ((hours % 12) * 60 + minutes) * 0.25; 
 
             // Rotate the hand based on the calculated degrees
             hand.style.transform = `rotate(${totalDegrees}deg)`;
