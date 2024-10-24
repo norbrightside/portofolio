@@ -6,151 +6,101 @@
     <title>Clock and Activity Schedule</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
             display: flex;
             flex-direction: column;
-            justify-content: center;
             align-items: center;
-            height: 100vh;
-            margin: 0;
-            background-color: #f4f4f4;
-            padding: 20px;
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
         }
-
-        .clock-container {
-            position: relative;
-            width: 150px; /* Adjusted for mobile */
-            height: 150px; /* Adjusted for mobile */
+        #clock {
+            width: 200px;
+            height: 200px;
             border: 5px solid black;
             border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin-bottom: 20px; /* Space between clock and pie chart */
-        }
-
-        .hand {
-            width: 2px;
-            height: 70px; /* Adjusted for mobile */
-            background-color: black;
-            position: absolute;
-            top: 10px;
-            transform-origin: bottom;
-            transition: transform 0.5s ease;
-        }
-
-        .pie-chart {
-            width: 250px; /* Adjusted for mobile */
-            height: 250px; /* Adjusted for mobile */
             position: relative;
-            margin: 0 auto;
+            margin-bottom: 20px;
         }
-
-        .pie-chart .segment {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            clip: rect(0, 125px, 125px, 62.5px); /* Adjusted for mobile */
-            border-radius: 50%;
-        }
-
-        .pie-chart .segment-1 {
-            background: #FFD700;
-            transform: rotate(0deg);
-            clip: rect(0px, 62.5px, 125px, 0px);
-        }
-
-        .pie-chart .segment-2 {
-            background: #FF6347;
-            transform: rotate(90deg);
-        }
-
-        .pie-chart .segment-3 {
-            background: #4682B4;
-            transform: rotate(180deg);
-        }
-
-        .pie-chart .segment-4 {
-            background: #32CD32;
-            transform: rotate(210deg);
-        }
-
-        .pie-chart .segment-5 {
-            background: #8A2BE2;
-            transform: rotate(300deg);
-        }
-
-        .center-label {
+        #hand {
+            width: 50%;
+            height: 2px;
+            background: red;
             position: absolute;
             top: 50%;
             left: 50%;
-            transform: translate(-50%, -50%);
-            text-align: center;
-            font-weight: bold;
-            font-size: 14px; /* Adjusted for mobile */
+            transform-origin: 0% 50%;
+            transform: rotate(90deg);
         }
-
-        @media (max-width: 600px) {
-            .clock-container {
-                width: 120px; /* Smaller clock for mobile */
-                height: 120px; /* Smaller clock for mobile */
-            }
-
-            .hand {
-                height: 60px; /* Smaller hand for mobile */
-            }
-
-            .pie-chart {
-                width: 200px; /* Smaller pie chart for mobile */
-                height: 200px; /* Smaller pie chart for mobile */
-            }
-
-            .center-label {
-                font-size: 12px; /* Smaller text for mobile */
-            }
+        canvas {
+            max-width: 400px;
+            margin-top: 20px;
         }
     </style>
 </head>
 <body>
 
-    <!-- Clock -->
-    <div class="clock-container">
-        <div class="hand" id="hand"></div>
-    </div>
+<div id="clock">
+    <div id="hand"></div>
+</div>
 
-    <!-- Pie Chart for Daily Activities -->
-    <div class="pie-chart">
-        <div class="segment segment-1"></div>
-        <div class="segment segment-2"></div>
-        <div class="segment segment-3"></div>
-        <div class="segment segment-4"></div>
-        <div class="segment segment-5"></div>
-        <div class="center-label">Daily<br>Schedule</div>
-    </div>
+<canvas id="activityChart"></canvas>
 
-    <script>
-        // JavaScript to update clock's hand in real time
-        function updateClock() {
-            const hand = document.getElementById('hand');
-            const now = new Date();
+<script>
+    // Function to update the clock's hand based on real time
+    function updateClock() {
+        const hand = document.getElementById('hand');
+        const now = new Date();
 
-            // Get the current hour, minute, and second
-            const hours = now.getHours();
-            const minutes = now.getMinutes();
+        // Get the current hour, minute, and second
+        const hours = now.getHours();
+        const minutes = now.getMinutes();
 
-            // Calculate the rotation degree
-            const totalDegrees = ((hours % 12) * 60 + minutes) * 0.25; 
+        // Calculate the rotation degree: (hours * 60 + minutes) / 4 = total degrees
+        const totalDegrees = ((hours % 24) * 60 + minutes) * 0.25; 
 
-            // Rotate the hand based on the calculated degrees
-            hand.style.transform = `rotate(${totalDegrees}deg)`;
+        // Rotate the hand based on the calculated degrees
+        hand.style.transform = `rotate(${totalDegrees}deg)`;
+    }
+
+    // Update the clock every second
+    setInterval(updateClock, 1000);
+
+    // Initialize clock on page load
+    updateClock();
+
+    // Pie chart data
+    const durasiKegiatan = [3, 6, 1, 1, 8, 5];
+    const kegiatan = ['Kegiatan 1', 'Kegiatan 2', 'Kegiatan 3', 'Kegiatan 4', 'Tidur', 'Belajar'];
+    const total = durasiKegiatan.reduce((a, b) => a + b, 0);
+    const colors = ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF', '#FF9F40'];
+
+    const ctx = document.getElementById('activityChart').getContext('2d');
+    const activityChart = new Chart(ctx, {
+        type: 'pie',
+        data: {
+            labels: kegiatan,
+            datasets: [{
+                label: 'Durasi Kegiatan',
+                data: durasiKegiatan,
+                backgroundColor: colors,
+                borderColor: '#fff',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'top',
+                },
+                title: {
+                    display: true,
+                    text: "Jadwal Menganggur Namamu"
+                }
+            }
         }
+    });
+</script>
 
-        // Update the clock every second
-        setInterval(updateClock, 1000);
-        updateClock();
-    </script>
-
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </body>
 </html>
