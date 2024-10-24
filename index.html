@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Naii's Activity Clock</title>
+    <title>Real-Time Activity Clock</title>
     <style>
         /* Clock container */
         .clock {
@@ -23,7 +23,6 @@
             top: 50%;
             left: 50%;
             transform-origin: 0% 50%;
-            transform: rotate(90deg);
             transition: transform 0.5s ease-in-out;
         }
 
@@ -38,32 +37,17 @@
         .label-6  { bottom: 10px; left: 50%; transform: translateX(-50%); }
         .label-3  { top: 50%; right: 10px; transform: translateY(-50%); }
         .label-9  { top: 50%; left: 10px; transform: translateY(-50%); }
-
-        /* Center play button */
-        #playButton {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background-color: orange;
-            border-radius: 50%;
-            padding: 10px 20px;
-            cursor: pointer;
-        }
     </style>
 </head>
 <body>
     <div class="clock" id="clock">
         <div class="hand" id="hand"></div>
 
-        <!-- Time labels (0, 6, 3, 9 represent hours or activities) -->
+        <!-- Time labels (representing activities) -->
         <div class="time-label label-0">Sleep</div>
         <div class="time-label label-6">Exercise</div>
         <div class="time-label label-3">Work</div>
         <div class="time-label label-9">Relax</div>
-
-        <!-- Play button in the center -->
-        <div id="playButton">PLAY!</div>
     </div>
 
     <script src="clock.js"></script>
