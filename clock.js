@@ -1,20 +1,23 @@
-// Function to update the clock's hand
+// Function to update the clock's hand based on real time
 function updateClock() {
     const hand = document.getElementById('hand');
     const now = new Date();
 
-    // Get the current hour and calculate the rotation degree
+    // Get the current hour, minute, and second
     const hours = now.getHours();
-    const degrees = (hours % 24) * 15; // 24 hours, 360 degrees = 15 degrees per hour
+    const minutes = now.getMinutes();
+    const seconds = now.getSeconds();
 
-    // Rotate the hand according to the current time
-    hand.style.transform = `rotate(${degrees}deg)`;
+    // Calculate the rotation degree: (hours * 60 + minutes) / 4 = total degrees
+    // 24 hours in 360 degrees, hence 15 degrees per hour
+    const totalDegrees = ((hours % 24) * 60 + minutes) * 0.25; 
+
+    // Rotate the hand based on the calculated degrees
+    hand.style.transform = `rotate(${totalDegrees}deg)`;
 }
 
-// Call the function every second
+// Update the clock every second
 setInterval(updateClock, 1000);
 
-// Optional: Handle play button
-document.getElementById('playButton').addEventListener('click', () => {
-    alert('Activity schedule running!');
-});
+// Initialize clock on page load
+updateClock();
